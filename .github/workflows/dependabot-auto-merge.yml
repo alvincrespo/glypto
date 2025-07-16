@@ -12,30 +12,30 @@ jobs:
   auto-merge:
     name: Auto-merge Dependabot PRs
     runs-on: ubuntu-latest
-    
+
     if: github.actor == 'dependabot[bot]'
-    
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-        
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '24.x'
           cache: 'npm'
-          
+
       - name: Install dependencies
         run: npm ci
-        
+
       - name: Run tests
         run: npm run test
-        
+
       - name: Auto-merge minor and patch updates
         run: |
           # Get PR details
           PR_TITLE="${{ github.event.pull_request.title }}"
-          
+
           # Check if it's a minor or patch update
           if echo "$PR_TITLE" | grep -qE "(patch|minor)"; then
             echo "Auto-merging $PR_TITLE"
@@ -44,4 +44,4 @@ jobs:
             echo "Major update detected: $PR_TITLE - manual review required"
           fi
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
