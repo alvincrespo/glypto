@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { JSDOM } from 'jsdom';
 import { createScraper, createScraperWithProviders, scrapeMetadata } from '../src/factory.js';
@@ -176,7 +177,7 @@ describe('Factory Functions', () => {
       lowPriorityProvider.scrape = mockScrapeLow;
 
       const scraper = createScraperWithProviders([lowPriorityProvider, highPriorityProvider]);
-      const metadata = await scraper.scrape(document);
+      await scraper.scrape(document);
 
       // High priority provider should be used first
       expect(mockScrapeHigh).toHaveBeenCalled();
