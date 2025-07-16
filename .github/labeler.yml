@@ -1,0 +1,40 @@
+# Configuration for automatic labeling of pull requests
+
+# Source code changes
+"code":
+  - "src/**/*.ts"
+
+# Test changes
+"tests":
+  - "test/**/*.ts"
+  - "**/*.test.ts"
+  - "**/*.spec.ts"
+
+# Documentation changes  
+"documentation":
+  - "README.md"
+  - "docs/**/*"
+  - "*.md"
+
+# CI/CD changes
+"ci":
+  - ".github/**/*"
+  - "package.json"
+  - "package-lock.json"
+
+# Configuration changes
+"config":
+  - "tsconfig.json"
+  - "eslint.config.js"
+  - "vitest.config.ts"
+  - ".gitignore"
+
+# Dependencies
+"dependencies":
+  - "package.json"
+  - "package-lock.json"
+
+# Provider related changes
+"providers":
+  - "src/providers/**/*"
+  - "test/*provider*.ts"

@@ -1,5 +1,9 @@
 # Glypto
 
+[![CI](https://github.com/alvincrespo/glypto/actions/workflows/ci.yml/badge.svg)](https://github.com/alvincrespo/glypto/actions/workflows/ci.yml)
+[![CodeQL](https://github.com/alvincrespo/glypto/actions/workflows/codeql.yml/badge.svg)](https://github.com/alvincrespo/glypto/actions/workflows/codeql.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 A TypeScript CLI tool for scraping metadata from a website using a provider-based architecture.
 
 ## Table of Contents
@@ -22,6 +26,7 @@ A TypeScript CLI tool for scraping metadata from a website using a provider-base
   - [Test Structure](#test-structure)
   - [Writing Tests](#writing-tests)
   - [Coverage Reports](#coverage-reports)
+- [CI/CD](#cicd)
 - [API Reference](#api-reference)
   - [Factory Functions](#factory-functions)
   - [Classes](#classes)
@@ -280,6 +285,53 @@ Coverage reports are generated in multiple formats:
 The project maintains **97.73%** statement coverage with comprehensive tests across all components. Interface-only files (`types.ts`) and CLI entry points are excluded from coverage for cleaner metrics.
 
 The coverage directory is automatically excluded from git commits.
+
+## CI/CD
+
+The project uses GitHub Actions for continuous integration and deployment:
+
+### Workflows
+
+- **`ci.yml`**: Main CI pipeline that runs on every push and pull request
+  - Tests across Node.js versions 20.x, 22.x, and 24.x
+  - Runs linting, type checking, building, and testing
+  - Uploads coverage reports to Codecov
+  - Includes security auditing and dependency checking
+
+- **`codeql.yml`**: CodeQL security analysis
+  - Runs weekly and on main branch changes
+  - Identifies potential security vulnerabilities
+
+- **`release.yml`**: Automated releases
+  - Triggers on version tags (v*)
+  - Creates GitHub releases with assets
+  - Ready for npm publishing (commented out)
+
+- **`dependabot-auto-merge.yml`**: Automated dependency updates
+  - Auto-merges minor and patch updates from Dependabot
+  - Requires tests to pass before merging
+
+- **`stale.yml`**: Issue and PR management
+  - Marks inactive issues/PRs as stale
+  - Automatically closes after extended inactivity
+
+- **`labeler.yml`**: Automatic labeling
+  - Labels PRs based on changed files
+  - Helps with project organization
+
+### Branch Protection
+
+Configure branch protection rules for `main`:
+- Require status checks to pass
+- Require branches to be up to date
+- Require review from code owners
+- Dismiss stale reviews when new commits are pushed
+
+### Secrets Required
+
+For full functionality, configure these secrets in your repository:
+- `CODECOV_TOKEN`: For coverage reporting (optional)
+- `NPM_TOKEN`: For npm publishing (if enabled)
 
 ## API Reference
 

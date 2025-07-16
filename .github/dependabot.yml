@@ -1,0 +1,57 @@
+version: 2
+
+updates:
+  # Enable version updates for npm
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "06:00"
+    open-pull-requests-limit: 10
+    reviewers:
+      - "alvincrespo"
+    assignees:
+      - "alvincrespo"
+    commit-message:
+      prefix: "deps"
+      include: "scope"
+    groups:
+      development-dependencies:
+        patterns:
+          - "@types/*"
+          - "@eslint/*"
+          - "@vitest/*"
+          - "@tsconfig/*"
+          - "eslint*"
+          - "typescript*"
+          - "prettier"
+          - "vitest"
+          - "tsx"
+          - "jsdom"
+        update-types:
+          - "minor"
+          - "patch"
+      production-dependencies:
+        patterns:
+          - "chalk"
+          - "commander"
+        update-types:
+          - "minor"
+          - "patch"
+
+  # Enable version updates for GitHub Actions
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "06:00"
+    open-pull-requests-limit: 5
+    reviewers:
+      - "alvincrespo"
+    assignees:
+      - "alvincrespo"
+    commit-message:
+      prefix: "ci"
+      include: "scope"
