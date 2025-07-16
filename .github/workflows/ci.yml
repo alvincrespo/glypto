@@ -92,4 +92,4 @@ jobs:
         run: npm audit --audit-level moderate
 
       - name: Run dependency check
-        run: npx depcheck --ignores="@types/*,tsx,prettier"
+        run: npx depcheck --ignores="@types/*,tsx,prettier,@vitest/coverage-v8"
