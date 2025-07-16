@@ -7,11 +7,15 @@ export class TwitterProvider implements MetadataProvider {
   canHandle(element: Element): boolean {
     const property = element.getAttribute('property');
     const name = element.getAttribute('name');
-    return (property?.startsWith('twitter:') || name?.startsWith('twitter:')) ?? false;
+    return (
+      (property?.startsWith('twitter:') || name?.startsWith('twitter:')) ??
+      false
+    );
   }
 
   scrape(element: Element): { key: string; value: string } | null {
-    const property = element.getAttribute('property') || element.getAttribute('name');
+    const property =
+      element.getAttribute('property') || element.getAttribute('name');
     const content = element.getAttribute('content');
 
     if (!property || !content || !this.canHandle(element)) {

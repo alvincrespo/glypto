@@ -11,7 +11,8 @@ export class OpenGraphProvider implements MetadataProvider {
   }
 
   scrape(element: Element): { key: string; value: string } | null {
-    const property = element.getAttribute('property') || element.getAttribute('name');
+    const property =
+      element.getAttribute('property') || element.getAttribute('name');
     const content = element.getAttribute('content');
 
     if (!property || !content || !this.canHandle(element)) {

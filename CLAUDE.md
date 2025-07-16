@@ -27,6 +27,7 @@ Note: No test framework is currently configured (test script returns error).
 ## Architecture
 
 This is a simple CLI tool built with:
+
 - TypeScript for type safety
 - Commander.js for CLI argument parsing (dependency available)
 - Chalk for terminal colors (dependency available)
@@ -38,6 +39,7 @@ The CLI is designed to be installed globally and run as `glypto` command.
 ## ESLint Configuration
 
 The project uses modern ESLint flat config with TypeScript support:
+
 - Enforces no unused variables as errors
 - Warns on explicit any usage
 - Follows recommended JS and TypeScript rules

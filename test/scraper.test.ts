@@ -14,7 +14,9 @@ describe('Scraper', () => {
 
   describe('scrape', () => {
     it('should throw error for invalid document', async () => {
-      await expect(scraper.scrape({} as Document)).rejects.toThrow('DOM Document expected.');
+      await expect(scraper.scrape({} as Document)).rejects.toThrow(
+        'DOM Document expected.'
+      );
     });
 
     it('should scrape basic HTML metadata', async () => {
@@ -31,12 +33,12 @@ describe('Scraper', () => {
           </body>
         </html>
       `;
-      
+
       const dom = new JSDOM(html);
       const document = dom.window.document;
-      
+
       const metadata = await scraper.scrape(document);
-      
+
       expect(metadata).toBeDefined();
       expect(metadata.feeds).toEqual([]);
     });
@@ -50,22 +52,22 @@ describe('Scraper', () => {
           </head>
         </html>
       `;
-      
+
       const dom = new JSDOM(html);
       const document = dom.window.document;
-      
+
       const metadata = await scraper.scrape(document);
-      
+
       expect(metadata.feeds).toHaveLength(2);
       expect(metadata.feeds[0]).toEqual({
         title: 'RSS Feed',
         type: 'application/rss+xml',
-        href: '/feed.xml'
+        href: '/feed.xml',
       });
       expect(metadata.feeds[1]).toEqual({
         title: 'Atom Feed',
         type: 'application/atom+xml',
-        href: '/atom.xml'
+        href: '/atom.xml',
       });
     });
 
@@ -77,17 +79,17 @@ describe('Scraper', () => {
           </head>
         </html>
       `;
-      
+
       const dom = new JSDOM(html);
       const document = dom.window.document;
-      
+
       const metadata = await scraper.scrape(document);
-      
+
       expect(metadata.feeds).toHaveLength(1);
       expect(metadata.feeds[0]).toEqual({
         title: undefined,
         type: 'application/rss+xml',
-        href: '/feed.xml'
+        href: '/feed.xml',
       });
     });
 
@@ -99,12 +101,12 @@ describe('Scraper', () => {
           </head>
         </html>
       `;
-      
+
       const dom = new JSDOM(html);
       const document = dom.window.document;
-      
+
       const metadata = await scraper.scrape(document);
-      
+
       expect(metadata.feeds).toHaveLength(0);
     });
   });

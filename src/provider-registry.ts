@@ -4,7 +4,7 @@ export class ProviderRegistry {
   private providers: MetadataProvider[] = [];
 
   constructor(providers: MetadataProvider[] = []) {
-    providers.forEach(provider => this.registerProvider(provider));
+    providers.forEach((provider) => this.registerProvider(provider));
   }
 
   registerProvider(provider: MetadataProvider): void {
@@ -18,10 +18,13 @@ export class ProviderRegistry {
   }
 
   getProvider(name: string): MetadataProvider | undefined {
-    return this.providers.find(p => p.name === name);
+    return this.providers.find((p) => p.name === name);
   }
 
-  scrapeFromElement(element: Element): { provider: MetadataProvider; data: { key: string; value: string } } | null {
+  scrapeFromElement(element: Element): {
+    provider: MetadataProvider;
+    data: { key: string; value: string };
+  } | null {
     for (const provider of this.providers) {
       if (provider.canHandle(element)) {
         const data = provider.scrape(element);

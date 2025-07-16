@@ -8,9 +8,15 @@ class MockProvider implements MetadataProvider {
   readonly name = 'mock';
   readonly priority = 1;
 
-  canHandle(): boolean { return true; }
-  scrape(): { key: string; value: string } | null { return null; }
-  getValue(): string | undefined { return undefined; }
+  canHandle(): boolean {
+    return true;
+  }
+  scrape(): { key: string; value: string } | null {
+    return null;
+  }
+  getValue(): string | undefined {
+    return undefined;
+  }
 }
 
 describe('ProviderLoader', () => {
@@ -44,7 +50,7 @@ describe('ProviderLoader', () => {
     it('should return providers that implement MetadataProvider interface', async () => {
       const providers = await loader.loadDefaults();
 
-      providers.forEach(provider => {
+      providers.forEach((provider) => {
         expect(typeof provider.name).toBe('string');
         expect(typeof provider.priority).toBe('number');
         expect(typeof provider.canHandle).toBe('function');
@@ -93,7 +99,7 @@ describe('ProviderLoader', () => {
 
       // If successful, should contain actual providers
       if (providers.length > 0) {
-        providers.forEach(provider => {
+        providers.forEach((provider) => {
           expect(typeof provider.name).toBe('string');
           expect(typeof provider.priority).toBe('number');
           expect(typeof provider.canHandle).toBe('function');
@@ -123,7 +129,7 @@ describe('ProviderLoader', () => {
       const providers = await loader.loadFromDirectory('./src/providers');
 
       // Each loaded provider should be a valid MetadataProvider
-      providers.forEach(provider => {
+      providers.forEach((provider) => {
         expect(provider).toHaveProperty('name');
         expect(provider).toHaveProperty('priority');
         expect(provider).toHaveProperty('canHandle');
@@ -150,7 +156,7 @@ describe('ProviderLoader', () => {
       const providers = await loader.loadFromDirectory('./src/providers');
 
       // If providers are found, they should be properly instantiated
-      providers.forEach(provider => {
+      providers.forEach((provider) => {
         expect(provider).toBeDefined();
         expect(provider.constructor).toBeDefined();
 
@@ -190,16 +196,28 @@ describe('ProviderLoader', () => {
 
       class MissingName {
         priority = 1;
-        canHandle() { return true; }
-        scrape() { return null; }
-        getValue() { return undefined; }
+        canHandle() {
+          return true;
+        }
+        scrape() {
+          return null;
+        }
+        getValue() {
+          return undefined;
+        }
       }
 
       class MissingPriority {
         name = 'test';
-        canHandle() { return true; }
-        scrape() { return null; }
-        getValue() { return undefined; }
+        canHandle() {
+          return true;
+        }
+        scrape() {
+          return null;
+        }
+        getValue() {
+          return undefined;
+        }
       }
 
       class MissingMethods {

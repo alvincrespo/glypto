@@ -21,7 +21,8 @@ export class StandardMetaProvider implements MetadataProvider {
   }
 
   scrape(element: Element): { key: string; value: string } | null {
-    const name = element.getAttribute('name') || element.getAttribute('property');
+    const name =
+      element.getAttribute('name') || element.getAttribute('property');
     const content = element.getAttribute('content');
 
     if (!name || !content || !this.canHandle(element)) {

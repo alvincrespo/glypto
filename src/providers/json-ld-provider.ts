@@ -9,8 +9,10 @@ export class JsonLdProvider implements MetadataProvider {
   readonly priority = 0.5; // Even higher priority than OpenGraph
 
   canHandle(element: Element): boolean {
-    return element.tagName?.toLowerCase() === 'script' &&
-           element.getAttribute('type') === 'application/ld+json';
+    return (
+      element.tagName?.toLowerCase() === 'script' &&
+      element.getAttribute('type') === 'application/ld+json'
+    );
   }
 
   scrape(element: Element): { key: string; value: string } | null {

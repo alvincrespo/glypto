@@ -23,7 +23,9 @@ export async function createScraper(): Promise<Scraper> {
 /**
  * Create a scraper with custom providers
  */
-export function createScraperWithProviders(providers: MetadataProvider[]): Scraper {
+export function createScraperWithProviders(
+  providers: MetadataProvider[]
+): Scraper {
   const registry = new ProviderRegistry(providers);
   return new Scraper(registry);
 }

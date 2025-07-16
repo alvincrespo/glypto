@@ -7,9 +7,11 @@ export class OtherElementsProvider implements MetadataProvider {
   canHandle(element: Element): boolean {
     // This provider handles title tags, h1 tags, and link tags
     const tagName = element.tagName?.toLowerCase();
-    return tagName === 'title' ||
-           tagName === 'h1' ||
-           (tagName === 'link' && !!element.getAttribute('rel'));
+    return (
+      tagName === 'title' ||
+      tagName === 'h1' ||
+      (tagName === 'link' && !!element.getAttribute('rel'))
+    );
   }
 
   scrape(element: Element): { key: string; value: string } | null {

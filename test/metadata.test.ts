@@ -16,29 +16,34 @@ describe('Metadata', () => {
   describe('addData', () => {
     it('should add data to provider', () => {
       metadata.addData('meta', 'title', 'Test Title');
-      
+
       expect(metadata.meta.get('title')).toEqual(['Test Title']);
     });
 
     it('should append to existing data', () => {
       metadata.addData('meta', 'title', 'First Title');
       metadata.addData('meta', 'title', 'Second Title');
-      
-      expect(metadata.meta.get('title')).toEqual(['First Title', 'Second Title']);
+
+      expect(metadata.meta.get('title')).toEqual([
+        'First Title',
+        'Second Title',
+      ]);
     });
 
     it('should create new provider data if not exists', () => {
       metadata.addData('newProvider', 'key', 'value');
-      
+
       expect(metadata['providerData']['newProvider']).toBeDefined();
-      expect(metadata['providerData']['newProvider'].get('key')).toEqual(['value']);
+      expect(metadata['providerData']['newProvider'].get('key')).toEqual([
+        'value',
+      ]);
     });
   });
 
   describe('getters', () => {
     it('should return favicon with fallback', () => {
       expect(metadata.favicon).toBe('/favicon.ico');
-      
+
       metadata.addData('meta', 'icon', 'custom-icon.png');
       expect(metadata.favicon).toBe('custom-icon.png');
     });
@@ -67,8 +72,12 @@ describe('Metadata', () => {
     });
 
     it('should allow adding feeds', () => {
-      metadata.feeds.push({ title: 'RSS Feed', type: 'application/rss+xml', href: '/feed.xml' });
-      
+      metadata.feeds.push({
+        title: 'RSS Feed',
+        type: 'application/rss+xml',
+        href: '/feed.xml',
+      });
+
       expect(metadata.feeds).toHaveLength(1);
       expect(metadata.feeds[0].title).toBe('RSS Feed');
     });

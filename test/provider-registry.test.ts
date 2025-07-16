@@ -54,10 +54,14 @@ describe('ProviderRegistry', () => {
       const provider1 = new MockProvider('provider1', 3);
       const provider2 = new MockProvider('provider2', 1);
       const provider3 = new MockProvider('provider3', 2);
-      
-      const registryWithProviders = new ProviderRegistry([provider1, provider2, provider3]);
+
+      const registryWithProviders = new ProviderRegistry([
+        provider1,
+        provider2,
+        provider3,
+      ]);
       const providers = registryWithProviders.getProviders();
-      
+
       expect(providers).toHaveLength(3);
       expect(providers[0].priority).toBe(1);
       expect(providers[1].priority).toBe(2);
@@ -68,9 +72,9 @@ describe('ProviderRegistry', () => {
   describe('registerProvider', () => {
     it('should register a single provider', () => {
       const provider = new OpenGraphProvider();
-      
+
       registry.registerProvider(provider);
-      
+
       expect(registry.getProviders()).toHaveLength(1);
       expect(registry.getProviders()[0]).toBe(provider);
     });
@@ -79,11 +83,11 @@ describe('ProviderRegistry', () => {
       const ogProvider = new OpenGraphProvider(); // priority 1
       const twitterProvider = new TwitterProvider(); // priority 2
       const metaProvider = new StandardMetaProvider(); // priority 3
-      
+
       registry.registerProvider(metaProvider);
       registry.registerProvider(ogProvider);
       registry.registerProvider(twitterProvider);
-      
+
       const providers = registry.getProviders();
       expect(providers).toHaveLength(3);
       expect(providers[0]).toBe(ogProvider); // priority 1
@@ -94,10 +98,10 @@ describe('ProviderRegistry', () => {
     it('should maintain order for providers with same priority', () => {
       const provider1 = new MockProvider('first', 1);
       const provider2 = new MockProvider('second', 1);
-      
+
       registry.registerProvider(provider1);
       registry.registerProvider(provider2);
-      
+
       const providers = registry.getProviders();
       expect(providers[0]).toBe(provider1);
       expect(providers[1]).toBe(provider2);
@@ -108,10 +112,10 @@ describe('ProviderRegistry', () => {
     it('should return copy of providers array', () => {
       const provider = new OpenGraphProvider();
       registry.registerProvider(provider);
-      
+
       const providers1 = registry.getProviders();
       const providers2 = registry.getProviders();
-      
+
       expect(providers1).toEqual(providers2);
       expect(providers1).not.toBe(providers2); // Different array instances
     });
@@ -121,17 +125,17 @@ describe('ProviderRegistry', () => {
     it('should find provider by name', () => {
       const ogProvider = new OpenGraphProvider();
       const twitterProvider = new TwitterProvider();
-      
+
       registry.registerProvider(ogProvider);
       registry.registerProvider(twitterProvider);
-      
+
       expect(registry.getProvider('openGraph')).toBe(ogProvider);
       expect(registry.getProvider('twitter')).toBe(twitterProvider);
     });
 
     it('should return undefined for non-existent provider', () => {
       registry.registerProvider(new OpenGraphProvider());
-      
+
       expect(registry.getProvider('nonexistent')).toBeUndefined();
     });
 
@@ -152,9 +156,9 @@ describe('ProviderRegistry', () => {
       const element = document.createElement('meta');
       element.setAttribute('property', 'og:title');
       element.setAttribute('content', 'Test Title');
-      
+
       const result = registry.scrapeFromElement(element);
-      
+
       expect(result).not.toBeNull();
       expect(result?.provider.name).toBe('openGraph');
       expect(result?.data).toEqual({ key: 'title', value: 'Test Title' });
@@ -164,26 +168,26 @@ describe('ProviderRegistry', () => {
       // Create element that could match multiple providers
       const mockProvider1 = new MockProvider('mock1', 0.5); // Higher priority
       const mockProvider2 = new MockProvider('mock2', 1); // Lower priority
-      
+
       // Make both providers able to handle the element
       const element = document.createElement('div');
       element.setAttribute('mock-provider', 'mock1');
       element.setAttribute('mock-key', 'test');
       element.setAttribute('mock-value', 'value1');
-      
+
       registry.registerProvider(mockProvider2);
       registry.registerProvider(mockProvider1);
-      
+
       const result = registry.scrapeFromElement(element);
-      
+
       expect(result?.provider.name).toBe('mock1'); // Higher priority provider
     });
 
     it('should return null when no provider can handle element', () => {
       const element = document.createElement('div');
-      
+
       const result = registry.scrapeFromElement(element);
-      
+
       expect(result).toBeNull();
     });
 
@@ -191,9 +195,9 @@ describe('ProviderRegistry', () => {
       const element = document.createElement('meta');
       element.setAttribute('property', 'og:title');
       // Missing content attribute
-      
+
       const result = registry.scrapeFromElement(element);
-      
+
       expect(result).toBeNull();
     });
 
@@ -201,9 +205,9 @@ describe('ProviderRegistry', () => {
       const element = document.createElement('meta');
       element.setAttribute('name', 'twitter:card');
       element.setAttribute('content', 'summary');
-      
+
       const result = registry.scrapeFromElement(element);
-      
+
       expect(result?.provider.name).toBe('twitter');
       expect(result?.data).toEqual({ key: 'card', value: 'summary' });
     });
@@ -214,7 +218,7 @@ describe('ProviderRegistry', () => {
       const ogProvider = new OpenGraphProvider();
       const twitterProvider = new TwitterProvider();
       const metaProvider = new StandardMetaProvider();
-      
+
       registry.registerProvider(ogProvider);
       registry.registerProvider(twitterProvider);
       registry.registerProvider(metaProvider);
@@ -222,66 +226,66 @@ describe('ProviderRegistry', () => {
 
     it('should resolve value from first provider that has it', () => {
       const providerData = {
-        'openGraph': new Map([['title', ['OG Title']]]),
-        'twitter': new Map([['title', ['Twitter Title']]]),
-        'meta': new Map([['title', ['Meta Title']]])
+        openGraph: new Map([['title', ['OG Title']]]),
+        twitter: new Map([['title', ['Twitter Title']]]),
+        meta: new Map([['title', ['Meta Title']]]),
       };
-      
+
       const result = registry.resolveValue('title', providerData);
-      
+
       expect(result).toBe('OG Title'); // OpenGraph has highest priority
     });
 
     it('should fall back to lower priority providers', () => {
       const providerData = {
-        'openGraph': new Map(), // No title
-        'twitter': new Map([['title', ['Twitter Title']]]),
-        'meta': new Map([['title', ['Meta Title']]])
+        openGraph: new Map(), // No title
+        twitter: new Map([['title', ['Twitter Title']]]),
+        meta: new Map([['title', ['Meta Title']]]),
       };
-      
+
       const result = registry.resolveValue('title', providerData);
-      
+
       expect(result).toBe('Twitter Title');
     });
 
     it('should return undefined when no provider has the value', () => {
       const providerData = {
-        'openGraph': new Map(),
-        'twitter': new Map(),
-        'meta': new Map()
+        openGraph: new Map(),
+        twitter: new Map(),
+        meta: new Map(),
       };
-      
+
       const result = registry.resolveValue('title', providerData);
-      
+
       expect(result).toBeUndefined();
     });
 
     it('should handle missing provider data gracefully', () => {
       const providerData = {
-        'openGraph': new Map([['title', ['OG Title']]])
+        openGraph: new Map([['title', ['OG Title']]]),
         // Missing twitter and meta
       };
-      
+
       const result = registry.resolveValue('title', providerData);
-      
+
       expect(result).toBe('OG Title');
     });
 
     it('should skip providers that return undefined', () => {
       const providerData = {
-        'openGraph': new Map([['description', ['OG Description']]]), // Has description but not title
-        'twitter': new Map([['title', ['Twitter Title']]]),
-        'meta': new Map([['title', ['Meta Title']]])
+        openGraph: new Map([['description', ['OG Description']]]), // Has description but not title
+        twitter: new Map([['title', ['Twitter Title']]]),
+        meta: new Map([['title', ['Meta Title']]]),
       };
-      
+
       const result = registry.resolveValue('title', providerData);
-      
+
       expect(result).toBe('Twitter Title');
     });
 
     it('should handle empty provider data', () => {
       const result = registry.resolveValue('title', {});
-      
+
       expect(result).toBeUndefined();
     });
   });

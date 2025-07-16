@@ -21,34 +21,34 @@ describe('TwitterProvider', () => {
     it('should handle twitter: property attributes', () => {
       const element = document.createElement('meta');
       element.setAttribute('property', 'twitter:title');
-      
+
       expect(provider.canHandle(element)).toBe(true);
     });
 
     it('should handle twitter: name attributes', () => {
       const element = document.createElement('meta');
       element.setAttribute('name', 'twitter:card');
-      
+
       expect(provider.canHandle(element)).toBe(true);
     });
 
     it('should not handle non-twitter properties', () => {
       const element = document.createElement('meta');
       element.setAttribute('property', 'og:title');
-      
+
       expect(provider.canHandle(element)).toBe(false);
     });
 
     it('should not handle elements without twitter attributes', () => {
       const element = document.createElement('meta');
       element.setAttribute('name', 'description');
-      
+
       expect(provider.canHandle(element)).toBe(false);
     });
 
     it('should handle null attributes gracefully', () => {
       const element = document.createElement('meta');
-      
+
       expect(provider.canHandle(element)).toBe(false);
     });
   });
@@ -58,9 +58,9 @@ describe('TwitterProvider', () => {
       const element = document.createElement('meta');
       element.setAttribute('name', 'twitter:card');
       element.setAttribute('content', 'summary');
-      
+
       const result = provider.scrape(element);
-      
+
       expect(result).toEqual({ key: 'card', value: 'summary' });
     });
 
@@ -68,9 +68,9 @@ describe('TwitterProvider', () => {
       const element = document.createElement('meta');
       element.setAttribute('name', 'twitter:site');
       element.setAttribute('content', '@example');
-      
+
       const result = provider.scrape(element);
-      
+
       expect(result).toEqual({ key: 'site', value: '@example' });
     });
 
@@ -78,9 +78,9 @@ describe('TwitterProvider', () => {
       const element = document.createElement('meta');
       element.setAttribute('property', 'twitter:title');
       element.setAttribute('content', 'Twitter Title');
-      
+
       const result = provider.scrape(element);
-      
+
       expect(result).toEqual({ key: 'title', value: 'Twitter Title' });
     });
 
@@ -88,27 +88,27 @@ describe('TwitterProvider', () => {
       const element = document.createElement('meta');
       element.setAttribute('name', 'description');
       element.setAttribute('content', 'Test');
-      
+
       const result = provider.scrape(element);
-      
+
       expect(result).toBeNull();
     });
 
     it('should return null when missing content', () => {
       const element = document.createElement('meta');
       element.setAttribute('name', 'twitter:card');
-      
+
       const result = provider.scrape(element);
-      
+
       expect(result).toBeNull();
     });
 
     it('should return null when missing property/name', () => {
       const element = document.createElement('meta');
       element.setAttribute('content', 'Test');
-      
+
       const result = provider.scrape(element);
-      
+
       expect(result).toBeNull();
     });
   });
@@ -116,25 +116,25 @@ describe('TwitterProvider', () => {
   describe('getValue', () => {
     it('should return first value from array', () => {
       const data = new Map([['card', ['summary', 'summary_large_image']]]);
-      
+
       const result = provider.getValue('card', data);
-      
+
       expect(result).toBe('summary');
     });
 
     it('should return undefined for missing key', () => {
       const data = new Map([['card', ['summary']]]);
-      
+
       const result = provider.getValue('site', data);
-      
+
       expect(result).toBeUndefined();
     });
 
     it('should return undefined for empty array', () => {
       const data = new Map([['card', []]]);
-      
+
       const result = provider.getValue('card', data);
-      
+
       expect(result).toBeUndefined();
     });
   });

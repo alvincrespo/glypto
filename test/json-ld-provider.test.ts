@@ -21,34 +21,37 @@ describe('JsonLdProvider', () => {
     it('should handle script elements with application/ld+json type', () => {
       const element = document.createElement('script');
       element.setAttribute('type', 'application/ld+json');
-      
+
       expect(provider.canHandle(element)).toBe(true);
     });
 
     it('should not handle script elements with other types', () => {
       const element = document.createElement('script');
       element.setAttribute('type', 'text/javascript');
-      
+
       expect(provider.canHandle(element)).toBe(false);
     });
 
     it('should not handle script elements without type', () => {
       const element = document.createElement('script');
-      
+
       expect(provider.canHandle(element)).toBe(false);
     });
 
     it('should not handle other elements', () => {
       const element = document.createElement('div');
-      
+
       expect(provider.canHandle(element)).toBe(false);
     });
 
     it('should handle elements case-insensitively', () => {
       // Create element with uppercase tag name
-      const element = document.createElementNS('http://www.w3.org/1999/xhtml', 'SCRIPT');
+      const element = document.createElementNS(
+        'http://www.w3.org/1999/xhtml',
+        'SCRIPT'
+      );
       element.setAttribute('type', 'application/ld+json');
-      
+
       expect(provider.canHandle(element)).toBe(true);
     });
   });
@@ -59,11 +62,11 @@ describe('JsonLdProvider', () => {
       element.setAttribute('type', 'application/ld+json');
       element.textContent = JSON.stringify({
         '@type': 'Article',
-        'headline': 'Example Article Title'
+        headline: 'Example Article Title',
       });
-      
+
       const result = provider.scrape(element);
-      
+
       expect(result).toEqual({ key: 'title', value: 'Example Article Title' });
     });
 
@@ -72,11 +75,11 @@ describe('JsonLdProvider', () => {
       element.setAttribute('type', 'application/ld+json');
       element.textContent = JSON.stringify({
         '@type': 'WebPage',
-        'headline': 'Example Page Title'
+        headline: 'Example Page Title',
       });
-      
+
       const result = provider.scrape(element);
-      
+
       expect(result).toEqual({ key: 'title', value: 'Example Page Title' });
     });
 
@@ -85,12 +88,15 @@ describe('JsonLdProvider', () => {
       element.setAttribute('type', 'application/ld+json');
       element.textContent = JSON.stringify({
         '@type': 'Article',
-        'description': 'Example article description'
+        description: 'Example article description',
       });
-      
+
       const result = provider.scrape(element);
-      
-      expect(result).toEqual({ key: 'description', value: 'Example article description' });
+
+      expect(result).toEqual({
+        key: 'description',
+        value: 'Example article description',
+      });
     });
 
     it('should parse JSON-LD and extract image URL', () => {
@@ -98,14 +104,17 @@ describe('JsonLdProvider', () => {
       element.setAttribute('type', 'application/ld+json');
       element.textContent = JSON.stringify({
         '@type': 'Article',
-        'image': {
-          'url': 'https://example.com/image.jpg'
-        }
+        image: {
+          url: 'https://example.com/image.jpg',
+        },
       });
-      
+
       const result = provider.scrape(element);
-      
-      expect(result).toEqual({ key: 'image', value: 'https://example.com/image.jpg' });
+
+      expect(result).toEqual({
+        key: 'image',
+        value: 'https://example.com/image.jpg',
+      });
     });
 
     it('should prioritize headline over description and image', () => {
@@ -113,13 +122,13 @@ describe('JsonLdProvider', () => {
       element.setAttribute('type', 'application/ld+json');
       element.textContent = JSON.stringify({
         '@type': 'Article',
-        'headline': 'Article Title',
-        'description': 'Article Description',
-        'image': { 'url': 'https://example.com/image.jpg' }
+        headline: 'Article Title',
+        description: 'Article Description',
+        image: { url: 'https://example.com/image.jpg' },
       });
-      
+
       const result = provider.scrape(element);
-      
+
       expect(result).toEqual({ key: 'title', value: 'Article Title' });
     });
 
@@ -128,13 +137,16 @@ describe('JsonLdProvider', () => {
       element.setAttribute('type', 'application/ld+json');
       element.textContent = JSON.stringify({
         '@type': 'Article',
-        'description': 'Article Description',
-        'image': { 'url': 'https://example.com/image.jpg' }
+        description: 'Article Description',
+        image: { url: 'https://example.com/image.jpg' },
       });
-      
+
       const result = provider.scrape(element);
-      
-      expect(result).toEqual({ key: 'description', value: 'Article Description' });
+
+      expect(result).toEqual({
+        key: 'description',
+        value: 'Article Description',
+      });
     });
 
     it('should return null for unsupported @type', () => {
@@ -142,11 +154,11 @@ describe('JsonLdProvider', () => {
       element.setAttribute('type', 'application/ld+json');
       element.textContent = JSON.stringify({
         '@type': 'Organization',
-        'name': 'Example Company'
+        name: 'Example Company',
       });
-      
+
       const result = provider.scrape(element);
-      
+
       expect(result).toBeNull();
     });
 
@@ -155,11 +167,11 @@ describe('JsonLdProvider', () => {
       element.setAttribute('type', 'application/ld+json');
       element.textContent = JSON.stringify({
         '@type': 'Article',
-        'author': 'John Doe'
+        author: 'John Doe',
       });
-      
+
       const result = provider.scrape(element);
-      
+
       expect(result).toBeNull();
     });
 
@@ -167,9 +179,9 @@ describe('JsonLdProvider', () => {
       const element = document.createElement('script');
       element.setAttribute('type', 'application/ld+json');
       element.textContent = 'invalid json';
-      
+
       const result = provider.scrape(element);
-      
+
       expect(result).toBeNull();
     });
 
@@ -177,9 +189,9 @@ describe('JsonLdProvider', () => {
       const element = document.createElement('script');
       element.setAttribute('type', 'application/ld+json');
       element.textContent = '';
-      
+
       const result = provider.scrape(element);
-      
+
       expect(result).toBeNull();
     });
 
@@ -187,9 +199,9 @@ describe('JsonLdProvider', () => {
       const element = document.createElement('script');
       element.setAttribute('type', 'application/ld+json');
       element.textContent = null;
-      
+
       const result = provider.scrape(element);
-      
+
       expect(result).toBeNull();
     });
 
@@ -197,9 +209,9 @@ describe('JsonLdProvider', () => {
       const element = document.createElement('script');
       element.setAttribute('type', 'application/ld+json');
       element.textContent = '{"@type": "Article", "headline":}';
-      
+
       const result = provider.scrape(element);
-      
+
       expect(result).toBeNull();
     });
   });
@@ -207,25 +219,25 @@ describe('JsonLdProvider', () => {
   describe('getValue', () => {
     it('should return first value from array', () => {
       const data = new Map([['title', ['First Title', 'Second Title']]]);
-      
+
       const result = provider.getValue('title', data);
-      
+
       expect(result).toBe('First Title');
     });
 
     it('should return undefined for missing key', () => {
       const data = new Map([['title', ['Test Title']]]);
-      
+
       const result = provider.getValue('description', data);
-      
+
       expect(result).toBeUndefined();
     });
 
     it('should return undefined for empty array', () => {
       const data = new Map([['title', []]]);
-      
+
       const result = provider.getValue('title', data);
-      
+
       expect(result).toBeUndefined();
     });
   });

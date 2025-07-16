@@ -19,62 +19,75 @@ program
     const readline = await import('readline');
     const rl = readline.createInterface({
       input: process.stdin,
-      output: process.stdout
+      output: process.stdout,
     });
 
-    rl.question(chalk.blue('Enter the URL to scrape metadata from: '), async (url) => {
-      rl.close();
+    rl.question(
+      chalk.blue('Enter the URL to scrape metadata from: '),
+      async (url) => {
+        rl.close();
 
-      try {
-        console.log(chalk.yellow(`Fetching metadata from: ${url}`));
+        try {
+          console.log(chalk.yellow(`Fetching metadata from: ${url}`));
 
-        const response = await fetch(url);
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-
-        const html = await response.text();
-        const dom = new JSDOM(html);
-        const document = dom.window.document;
-
-        const scraper = await createScraper();
-        const metadata = await scraper.scrape(document);
-
-        console.log(chalk.green('\n✓ Metadata scraped successfully:\n'));
-
-        console.log(chalk.bold('Title:'), metadata.title || 'Not found');
-        console.log(chalk.bold('Description:'), metadata.description || 'Not found');
-        console.log(chalk.bold('Image:'), metadata.image || 'Not found');
-        console.log(chalk.bold('URL:'), metadata.url || 'Not found');
-        console.log(chalk.bold('Site Name:'), metadata.siteName || 'Not found');
-        console.log(chalk.bold('Favicon:'), metadata.favicon);
-
-        if (metadata.feeds.length > 0) {
-          console.log(chalk.bold('\nFeeds:'));
-          metadata.feeds.forEach((feed, index) => {
-            console.log(`  ${index + 1}. ${feed.title || 'Untitled'} (${feed.type}) - ${feed.href}`);
-          });
-        }
-
-        if (metadata.openGraph.size > 0) {
-          console.log(chalk.bold('\nOpen Graph Tags:'));
-          for (const [key, values] of metadata.openGraph) {
-            console.log(`  ${key}: ${values.join(', ')}`);
+          const response = await fetch(url);
+          if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
           }
-        }
 
-        if (metadata.twitterCard.size > 0) {
-          console.log(chalk.bold('\nTwitter Card Tags:'));
-          for (const [key, values] of metadata.twitterCard) {
-            console.log(`  ${key}: ${values.join(', ')}`);
+          const html = await response.text();
+          const dom = new JSDOM(html);
+          const document = dom.window.document;
+
+          const scraper = await createScraper();
+          const metadata = await scraper.scrape(document);
+
+          console.log(chalk.green('\n✓ Metadata scraped successfully:\n'));
+
+          console.log(chalk.bold('Title:'), metadata.title || 'Not found');
+          console.log(
+            chalk.bold('Description:'),
+            metadata.description || 'Not found'
+          );
+          console.log(chalk.bold('Image:'), metadata.image || 'Not found');
+          console.log(chalk.bold('URL:'), metadata.url || 'Not found');
+          console.log(
+            chalk.bold('Site Name:'),
+            metadata.siteName || 'Not found'
+          );
+          console.log(chalk.bold('Favicon:'), metadata.favicon);
+
+          if (metadata.feeds.length > 0) {
+            console.log(chalk.bold('\nFeeds:'));
+            metadata.feeds.forEach((feed, index) => {
+              console.log(
+                `  ${index + 1}. ${feed.title || 'Untitled'} (${feed.type}) - ${feed.href}`
+              );
+            });
           }
-        }
 
-      } catch (error) {
-        console.error(chalk.red('Error:'), error instanceof Error ? error.message : 'Unknown error');
-        process.exit(1);
+          if (metadata.openGraph.size > 0) {
+            console.log(chalk.bold('\nOpen Graph Tags:'));
+            for (const [key, values] of metadata.openGraph) {
+              console.log(`  ${key}: ${values.join(', ')}`);
+            }
+          }
+
+          if (metadata.twitterCard.size > 0) {
+            console.log(chalk.bold('\nTwitter Card Tags:'));
+            for (const [key, values] of metadata.twitterCard) {
+              console.log(`  ${key}: ${values.join(', ')}`);
+            }
+          }
+        } catch (error) {
+          console.error(
+            chalk.red('Error:'),
+            error instanceof Error ? error.message : 'Unknown error'
+          );
+          process.exit(1);
+        }
       }
-    });
+    );
   });
 
 if (process.argv.length === 2) {

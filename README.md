@@ -85,13 +85,13 @@ import { JSDOM } from 'jsdom';
 const dom = new JSDOM(htmlContent);
 const metadata = await scrapeMetadata(dom.window.document);
 
-console.log(metadata.title);        // Page title
-console.log(metadata.description);  // Page description
-console.log(metadata.image);        // Featured image
-console.log(metadata.url);          // Canonical URL
-console.log(metadata.siteName);     // Site name
-console.log(metadata.favicon);      // Favicon URL
-console.log(metadata.feeds);        // RSS/Atom feeds
+console.log(metadata.title); // Page title
+console.log(metadata.description); // Page description
+console.log(metadata.image); // Featured image
+console.log(metadata.url); // Canonical URL
+console.log(metadata.siteName); // Site name
+console.log(metadata.favicon); // Favicon URL
+console.log(metadata.feeds); // RSS/Atom feeds
 ```
 
 ### Advanced Usage with Custom Providers
@@ -100,13 +100,13 @@ console.log(metadata.feeds);        // RSS/Atom feeds
 import {
   createScraperWithProviders,
   OpenGraphProvider,
-  TwitterProvider
+  TwitterProvider,
 } from 'glypto';
 
 // Create scraper with only specific providers
 const scraper = createScraperWithProviders([
   new OpenGraphProvider(),
-  new TwitterProvider()
+  new TwitterProvider(),
 ]);
 
 const metadata = await scraper.scrape(document);
@@ -115,11 +115,7 @@ const metadata = await scraper.scrape(document);
 ### Manual Registry Setup
 
 ```typescript
-import {
-  ProviderRegistry,
-  ProviderLoader,
-  Scraper
-} from 'glypto';
+import { ProviderRegistry, ProviderLoader, Scraper } from 'glypto';
 
 const loader = new ProviderLoader();
 const providers = await loader.loadFromDirectory('./custom-providers');
@@ -268,7 +264,7 @@ describe('MyFeature', () => {
   it('should work correctly', () => {
     const dom = new JSDOM('<html><head><title>Test</title></head></html>');
     const document = dom.window.document;
-    
+
     // Your test code here
     expect(document.title).toBe('Test');
   });
@@ -278,6 +274,7 @@ describe('MyFeature', () => {
 ### Coverage Reports
 
 Coverage reports are generated in multiple formats:
+
 - **Terminal**: Shows coverage summary in the console
 - **HTML**: Interactive report in `coverage/index.html`
 - **JSON**: Machine-readable report in `coverage/coverage-final.json`
@@ -303,7 +300,7 @@ The project uses GitHub Actions for continuous integration and deployment:
   - Identifies potential security vulnerabilities
 
 - **`release.yml`**: Automated releases
-  - Triggers on version tags (v*)
+  - Triggers on version tags (v\*)
   - Creates GitHub releases with assets
   - Ready for npm publishing (commented out)
 
@@ -322,6 +319,7 @@ The project uses GitHub Actions for continuous integration and deployment:
 ### Branch Protection
 
 Configure branch protection rules for `main`:
+
 - Require status checks to pass
 - Require branches to be up to date
 - Require review from code owners
@@ -330,6 +328,7 @@ Configure branch protection rules for `main`:
 ### Secrets Required
 
 For full functionality, configure these secrets in your repository:
+
 - `CODECOV_TOKEN`: For coverage reporting (optional)
 - `NPM_TOKEN`: For npm publishing (if enabled)
 

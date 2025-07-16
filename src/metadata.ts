@@ -34,14 +34,15 @@ export class Metadata {
   }
 
   get favicon(): string {
-    return this.resolveValue('icon') ||
-           this.resolveValue('shortcut icon') ||
-           '/favicon.ico';
+    return (
+      this.resolveValue('icon') ||
+      this.resolveValue('shortcut icon') ||
+      '/favicon.ico'
+    );
   }
 
   get title(): string | undefined {
-    return this.resolveValue('title') ||
-           this.resolveValue('firstHeading');
+    return this.resolveValue('title') || this.resolveValue('firstHeading');
   }
 
   get description(): string | undefined {
@@ -58,8 +59,7 @@ export class Metadata {
 
   get siteName(): string | undefined {
     // Twitter uses 'site' instead of 'site_name'
-    return this.resolveValue('site_name') ||
-           this.resolveValue('site');
+    return this.resolveValue('site_name') || this.resolveValue('site');
   }
 
   // Legacy getters for backward compatibility (if needed)

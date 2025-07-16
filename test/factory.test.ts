@@ -1,7 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { JSDOM } from 'jsdom';
-import { createScraper, createScraperWithProviders, scrapeMetadata } from '../src/factory.js';
+import {
+  createScraper,
+  createScraperWithProviders,
+  scrapeMetadata,
+} from '../src/factory.js';
 import { ProviderLoader } from '../src/provider-loader.js';
 import { OpenGraphProvider } from '../src/providers/open-graph-provider.js';
 import { TwitterProvider } from '../src/providers/twitter-provider.js';
@@ -21,8 +25,12 @@ class MockProvider implements MetadataProvider {
     this.priority = priority;
   }
 
-  canHandle(): boolean { return true; }
-  scrape(): { key: string; value: string } | null { return { key: 'test', value: 'mock' }; }
+  canHandle(): boolean {
+    return true;
+  }
+  scrape(): { key: string; value: string } | null {
+    return { key: 'test', value: 'mock' };
+  }
   getValue(key: string, data: Map<string, string[]>): string | undefined {
     const values = data.get(key);
     return values && values.length > 0 ? values[0] : undefined;
@@ -54,11 +62,13 @@ describe('Factory Functions', () => {
     it('should create scraper with loaded providers from directory', async () => {
       const mockLoader = vi.mocked(ProviderLoader);
       const mockLoaderInstance = {
-        loadFromDirectory: vi.fn().mockResolvedValue([
-          new MockProvider('provider1', 1),
-          new MockProvider('provider2', 2)
-        ]),
-        loadDefaults: vi.fn()
+        loadFromDirectory: vi
+          .fn()
+          .mockResolvedValue([
+            new MockProvider('provider1', 1),
+            new MockProvider('provider2', 2),
+          ]),
+        loadDefaults: vi.fn(),
       };
       mockLoader.mockImplementation(() => mockLoaderInstance as any);
 
@@ -73,10 +83,12 @@ describe('Factory Functions', () => {
       const mockLoader = vi.mocked(ProviderLoader);
       const mockLoaderInstance = {
         loadFromDirectory: vi.fn().mockResolvedValue([]), // Empty array
-        loadDefaults: vi.fn().mockResolvedValue([
-          new MockProvider('default1', 1),
-          new MockProvider('default2', 2)
-        ])
+        loadDefaults: vi
+          .fn()
+          .mockResolvedValue([
+            new MockProvider('default1', 1),
+            new MockProvider('default2', 2),
+          ]),
       };
       mockLoader.mockImplementation(() => mockLoaderInstance as any);
 
@@ -91,11 +103,13 @@ describe('Factory Functions', () => {
       const mockLoader = vi.mocked(ProviderLoader);
       const mockLoaderInstance = {
         loadFromDirectory: vi.fn().mockResolvedValue([]),
-        loadDefaults: vi.fn().mockResolvedValue([
-          new OpenGraphProvider(),
-          new TwitterProvider(),
-          new StandardMetaProvider()
-        ])
+        loadDefaults: vi
+          .fn()
+          .mockResolvedValue([
+            new OpenGraphProvider(),
+            new TwitterProvider(),
+            new StandardMetaProvider(),
+          ]),
       };
       mockLoader.mockImplementation(() => mockLoaderInstance as any);
 
@@ -110,9 +124,9 @@ describe('Factory Functions', () => {
       const mockLoader = vi.mocked(ProviderLoader);
       const mockLoaderInstance = {
         loadFromDirectory: vi.fn().mockResolvedValue([]), // Return empty array instead of error
-        loadDefaults: vi.fn().mockResolvedValue([
-          new MockProvider('fallback', 1)
-        ])
+        loadDefaults: vi
+          .fn()
+          .mockResolvedValue([new MockProvider('fallback', 1)]),
       };
       mockLoader.mockImplementation(() => mockLoaderInstance as any);
 
@@ -127,7 +141,7 @@ describe('Factory Functions', () => {
     it('should create scraper with provided custom providers', () => {
       const customProviders = [
         new MockProvider('custom1', 1),
-        new MockProvider('custom2', 2)
+        new MockProvider('custom2', 2),
       ];
 
       const scraper = createScraperWithProviders(customProviders);
@@ -138,7 +152,7 @@ describe('Factory Functions', () => {
     it('should create functional scraper with custom providers', async () => {
       const customProviders = [
         new OpenGraphProvider(),
-        new StandardMetaProvider()
+        new StandardMetaProvider(),
       ];
 
       const scraper = createScraperWithProviders(customProviders);
@@ -168,15 +182,22 @@ describe('Factory Functions', () => {
 
       // Mock both providers to handle the same element type
       const mockCanHandle = vi.fn().mockReturnValue(true);
-      const mockScrapeHigh = vi.fn().mockReturnValue({ key: 'title', value: 'high priority' });
-      const mockScrapeLow = vi.fn().mockReturnValue({ key: 'title', value: 'low priority' });
+      const mockScrapeHigh = vi
+        .fn()
+        .mockReturnValue({ key: 'title', value: 'high priority' });
+      const mockScrapeLow = vi
+        .fn()
+        .mockReturnValue({ key: 'title', value: 'low priority' });
 
       highPriorityProvider.canHandle = mockCanHandle;
       highPriorityProvider.scrape = mockScrapeHigh;
       lowPriorityProvider.canHandle = mockCanHandle;
       lowPriorityProvider.scrape = mockScrapeLow;
 
-      const scraper = createScraperWithProviders([lowPriorityProvider, highPriorityProvider]);
+      const scraper = createScraperWithProviders([
+        lowPriorityProvider,
+        highPriorityProvider,
+      ]);
       await scraper.scrape(document);
 
       // High priority provider should be used first
@@ -190,11 +211,13 @@ describe('Factory Functions', () => {
       const mockLoader = vi.mocked(ProviderLoader);
       const mockLoaderInstance = {
         loadFromDirectory: vi.fn().mockResolvedValue([]),
-        loadDefaults: vi.fn().mockResolvedValue([
-          new OpenGraphProvider(),
-          new TwitterProvider(),
-          new StandardMetaProvider()
-        ])
+        loadDefaults: vi
+          .fn()
+          .mockResolvedValue([
+            new OpenGraphProvider(),
+            new TwitterProvider(),
+            new StandardMetaProvider(),
+          ]),
       };
       mockLoader.mockImplementation(() => mockLoaderInstance as any);
 
@@ -209,11 +232,13 @@ describe('Factory Functions', () => {
       const mockLoader = vi.mocked(ProviderLoader);
       const mockLoaderInstance = {
         loadFromDirectory: vi.fn().mockResolvedValue([]),
-        loadDefaults: vi.fn().mockResolvedValue([
-          new OpenGraphProvider(),
-          new TwitterProvider(),
-          new StandardMetaProvider()
-        ])
+        loadDefaults: vi
+          .fn()
+          .mockResolvedValue([
+            new OpenGraphProvider(),
+            new TwitterProvider(),
+            new StandardMetaProvider(),
+          ]),
       };
       mockLoader.mockImplementation(() => mockLoaderInstance as any);
 
@@ -233,10 +258,12 @@ describe('Factory Functions', () => {
       const mockLoader = vi.mocked(ProviderLoader);
       const mockLoaderInstance = {
         loadFromDirectory: vi.fn().mockResolvedValue([]),
-        loadDefaults: vi.fn().mockResolvedValue([
-          new OpenGraphProvider(),
-          new StandardMetaProvider()
-        ])
+        loadDefaults: vi
+          .fn()
+          .mockResolvedValue([
+            new OpenGraphProvider(),
+            new StandardMetaProvider(),
+          ]),
       };
       mockLoader.mockImplementation(() => mockLoaderInstance as any);
 
@@ -265,11 +292,13 @@ describe('Factory Functions', () => {
       const mockLoader = vi.mocked(ProviderLoader);
       const mockLoaderInstance = {
         loadFromDirectory: vi.fn().mockResolvedValue([]),
-        loadDefaults: vi.fn().mockResolvedValue([
-          new OpenGraphProvider(),
-          new TwitterProvider(),
-          new StandardMetaProvider()
-        ])
+        loadDefaults: vi
+          .fn()
+          .mockResolvedValue([
+            new OpenGraphProvider(),
+            new TwitterProvider(),
+            new StandardMetaProvider(),
+          ]),
       };
       mockLoader.mockImplementation(() => mockLoaderInstance as any);
 
@@ -283,7 +312,7 @@ describe('Factory Functions', () => {
       const mockLoader = vi.mocked(ProviderLoader);
       const mockLoaderInstance = {
         loadFromDirectory: vi.fn().mockResolvedValue([]), // Return empty instead of error
-        loadDefaults: vi.fn().mockResolvedValue([]) // Return empty instead of error
+        loadDefaults: vi.fn().mockResolvedValue([]), // Return empty instead of error
       };
       mockLoader.mockImplementation(() => mockLoaderInstance as any);
 

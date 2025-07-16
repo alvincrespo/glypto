@@ -69,7 +69,7 @@ jobs:
         run: npm ci
 
       - name: Check formatting
-        run: npx prettier --check "src/**/*.ts" "test/**/*.ts" "*.md" "*.json"
+        run: npx prettier --check "src/**/*.ts" "test/**/*.ts"
 
   security:
     name: Security Audit

@@ -14,8 +14,8 @@ export class ProviderLoader {
       const providersDir = providersPath || join(__dirname, 'providers');
       const files = await readdir(providersDir);
 
-      const providerFiles = files.filter(file =>
-        file.endsWith('.js') && !file.endsWith('.d.ts')
+      const providerFiles = files.filter(
+        (file) => file.endsWith('.js') && !file.endsWith('.d.ts')
       );
 
       for (const file of providerFiles) {
@@ -48,10 +48,18 @@ export class ProviderLoader {
     const providers: MetadataProvider[] = [];
 
     try {
-      const { OpenGraphProvider } = await import('./providers/open-graph-provider.js');
-      const { TwitterProvider } = await import('./providers/twitter-provider.js');
-      const { StandardMetaProvider } = await import('./providers/standard-meta-provider.js');
-      const { OtherElementsProvider } = await import('./providers/other-elements-provider.js');
+      const { OpenGraphProvider } = await import(
+        './providers/open-graph-provider.js'
+      );
+      const { TwitterProvider } = await import(
+        './providers/twitter-provider.js'
+      );
+      const { StandardMetaProvider } = await import(
+        './providers/standard-meta-provider.js'
+      );
+      const { OtherElementsProvider } = await import(
+        './providers/other-elements-provider.js'
+      );
 
       providers.push(
         new OpenGraphProvider(),

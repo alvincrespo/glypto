@@ -11,15 +11,14 @@ export class Scraper {
   }
 
   async scrape(document: Document): Promise<Metadata> {
-    if (!document || typeof document.querySelectorAll !== "function") {
-      throw new TypeError("DOM Document expected.");
+    if (!document || typeof document.querySelectorAll !== 'function') {
+      throw new TypeError('DOM Document expected.');
     }
 
     this.document = document;
     this.result = new Metadata(this.registry);
 
-    return this
-      .scrapeMetaTags()
+    return this.scrapeMetaTags()
       .scrapeTitleTag()
       .scrapeHeadingTags()
       .scrapeLinkTags()
@@ -28,7 +27,7 @@ export class Scraper {
   }
 
   private scrapeMetaTags(): this {
-    const metaTags = this.document.querySelectorAll("meta");
+    const metaTags = this.document.querySelectorAll('meta');
     for (const tag of metaTags) {
       this.scrapeFromElement(tag);
     }
@@ -36,7 +35,7 @@ export class Scraper {
   }
 
   private scrapeTitleTag(): this {
-    const titleTag = this.document.querySelector("title");
+    const titleTag = this.document.querySelector('title');
     if (titleTag) {
       this.scrapeFromElement(titleTag);
     }
@@ -44,7 +43,7 @@ export class Scraper {
   }
 
   private scrapeHeadingTags(): this {
-    const h1Tag = this.document.querySelector("h1");
+    const h1Tag = this.document.querySelector('h1');
     if (h1Tag) {
       this.scrapeFromElement(h1Tag);
     }
@@ -52,7 +51,7 @@ export class Scraper {
   }
 
   private scrapeLinkTags(): this {
-    const linkTags = this.document.querySelectorAll("link[rel]");
+    const linkTags = this.document.querySelectorAll('link[rel]');
     for (const tag of linkTags) {
       this.scrapeFromElement(tag);
     }
@@ -61,11 +60,13 @@ export class Scraper {
 
   private scrapeFeedLinks(): this {
     // Handle feed links separately (they have special structure)
-    const feedLinkTags = this.document.querySelectorAll("link[rel='alternate']");
+    const feedLinkTags = this.document.querySelectorAll(
+      "link[rel='alternate']"
+    );
     for (const tag of feedLinkTags) {
-      const title = tag.getAttribute("title") || undefined;
-      const type = tag.getAttribute("type") || "";
-      const href = tag.getAttribute("href");
+      const title = tag.getAttribute('title') || undefined;
+      const type = tag.getAttribute('type') || '';
+      const href = tag.getAttribute('href');
 
       if (href) {
         this.result.feeds.push({ title, type, href });
@@ -77,7 +78,11 @@ export class Scraper {
   private scrapeFromElement(element: Element): void {
     const extraction = this.registry.scrapeFromElement(element);
     if (extraction) {
-      this.result.addData(extraction.provider.name, extraction.data.key, extraction.data.value);
+      this.result.addData(
+        extraction.provider.name,
+        extraction.data.key,
+        extraction.data.value
+      );
     }
   }
 
