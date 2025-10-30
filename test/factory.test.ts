@@ -93,16 +93,14 @@ describe('Factory Functions', () => {
     });
 
     it('should create functional scraper that can scrape metadata', async () => {
-      vi
-        .spyOn(ProviderLoader.prototype, 'loadFromDirectory')
-        .mockResolvedValue([]);
-      vi
-        .spyOn(ProviderLoader.prototype, 'loadDefaults')
-        .mockResolvedValue([
-          new OpenGraphProvider(),
-          new TwitterProvider(),
-          new StandardMetaProvider(),
-        ]);
+      vi.spyOn(ProviderLoader.prototype, 'loadFromDirectory').mockResolvedValue(
+        []
+      );
+      vi.spyOn(ProviderLoader.prototype, 'loadDefaults').mockResolvedValue([
+        new OpenGraphProvider(),
+        new TwitterProvider(),
+        new StandardMetaProvider(),
+      ]);
 
       const scraper = await createScraper();
       const metadata = await scraper.scrape(document);
@@ -112,9 +110,9 @@ describe('Factory Functions', () => {
     });
 
     it('should handle provider loading errors gracefully', async () => {
-      vi
-        .spyOn(ProviderLoader.prototype, 'loadFromDirectory')
-        .mockResolvedValue([]); // Return empty array instead of error
+      vi.spyOn(ProviderLoader.prototype, 'loadFromDirectory').mockResolvedValue(
+        []
+      ); // Return empty array instead of error
       const defaultsSpy = vi
         .spyOn(ProviderLoader.prototype, 'loadDefaults')
         .mockResolvedValue([new MockProvider('fallback', 1)]);
@@ -200,13 +198,11 @@ describe('Factory Functions', () => {
       const dirSpy = vi
         .spyOn(ProviderLoader.prototype, 'loadFromDirectory')
         .mockResolvedValue([]);
-      vi
-        .spyOn(ProviderLoader.prototype, 'loadDefaults')
-        .mockResolvedValue([
-          new OpenGraphProvider(),
-          new TwitterProvider(),
-          new StandardMetaProvider(),
-        ]);
+      vi.spyOn(ProviderLoader.prototype, 'loadDefaults').mockResolvedValue([
+        new OpenGraphProvider(),
+        new TwitterProvider(),
+        new StandardMetaProvider(),
+      ]);
 
       const metadata = await scrapeMetadata(document);
 
@@ -216,16 +212,14 @@ describe('Factory Functions', () => {
     });
 
     it('should return metadata with extracted values', async () => {
-      vi
-        .spyOn(ProviderLoader.prototype, 'loadFromDirectory')
-        .mockResolvedValue([]);
-      vi
-        .spyOn(ProviderLoader.prototype, 'loadDefaults')
-        .mockResolvedValue([
-          new OpenGraphProvider(),
-          new TwitterProvider(),
-          new StandardMetaProvider(),
-        ]);
+      vi.spyOn(ProviderLoader.prototype, 'loadFromDirectory').mockResolvedValue(
+        []
+      );
+      vi.spyOn(ProviderLoader.prototype, 'loadDefaults').mockResolvedValue([
+        new OpenGraphProvider(),
+        new TwitterProvider(),
+        new StandardMetaProvider(),
+      ]);
 
       const metadata = await scrapeMetadata(document);
 
@@ -240,15 +234,13 @@ describe('Factory Functions', () => {
       const emptyDom = new JSDOM('<html><head></head><body></body></html>');
       const emptyDocument = emptyDom.window.document;
 
-      vi
-        .spyOn(ProviderLoader.prototype, 'loadFromDirectory')
-        .mockResolvedValue([]);
-      vi
-        .spyOn(ProviderLoader.prototype, 'loadDefaults')
-        .mockResolvedValue([
-          new OpenGraphProvider(),
-          new StandardMetaProvider(),
-        ]);
+      vi.spyOn(ProviderLoader.prototype, 'loadFromDirectory').mockResolvedValue(
+        []
+      );
+      vi.spyOn(ProviderLoader.prototype, 'loadDefaults').mockResolvedValue([
+        new OpenGraphProvider(),
+        new StandardMetaProvider(),
+      ]);
 
       const metadata = await scrapeMetadata(emptyDocument);
 
@@ -272,16 +264,14 @@ describe('Factory Functions', () => {
       `);
       const customDocument = customDom.window.document;
 
-      vi
-        .spyOn(ProviderLoader.prototype, 'loadFromDirectory')
-        .mockResolvedValue([]);
-      vi
-        .spyOn(ProviderLoader.prototype, 'loadDefaults')
-        .mockResolvedValue([
-          new OpenGraphProvider(),
-          new TwitterProvider(),
-          new StandardMetaProvider(),
-        ]);
+      vi.spyOn(ProviderLoader.prototype, 'loadFromDirectory').mockResolvedValue(
+        []
+      );
+      vi.spyOn(ProviderLoader.prototype, 'loadDefaults').mockResolvedValue([
+        new OpenGraphProvider(),
+        new TwitterProvider(),
+        new StandardMetaProvider(),
+      ]);
 
       const metadata = await scrapeMetadata(customDocument);
 
@@ -290,12 +280,10 @@ describe('Factory Functions', () => {
     });
 
     it('should handle scraper creation errors', async () => {
-      vi
-        .spyOn(ProviderLoader.prototype, 'loadFromDirectory')
-        .mockResolvedValue([]); // Return empty instead of error
-      vi
-        .spyOn(ProviderLoader.prototype, 'loadDefaults')
-        .mockResolvedValue([]); // Return empty instead of error
+      vi.spyOn(ProviderLoader.prototype, 'loadFromDirectory').mockResolvedValue(
+        []
+      ); // Return empty instead of error
+      vi.spyOn(ProviderLoader.prototype, 'loadDefaults').mockResolvedValue([]); // Return empty instead of error
 
       // Should handle errors gracefully and return a scraper with empty providers
       const metadata = await scrapeMetadata(document);
