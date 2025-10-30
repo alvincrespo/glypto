@@ -2,15 +2,29 @@
   "name": "glypto",
   "version": "0.1.0",
   "type": "module",
-  "main": "dist/index.js",
+  "main": "dist/exports.js",
+  "types": "dist/exports.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/exports.d.ts",
+      "import": "./dist/exports.js"
+    }
+  },
   "bin": {
     "glypto": "./bin/glypto"
   },
+  "files": [
+    "dist",
+    "bin",
+    "README.md",
+    "LICENSE"
+  ],
   "scripts": {
     "build": "tsc",
     "watch": "tsc --watch",
     "dev": "tsx src/index.ts",
     "start": "node dist/index.js",
+    "prepublishOnly": "npm run build && npm test",
     "lint": "eslint \"src/**/*.ts\" \"test/**/*.ts\"",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\" \"*.md\" \"*.json\"",
     "test": "vitest run",
@@ -30,7 +44,6 @@
     "@vitest/coverage-v8": "^4.0.3",
     "@vitest/ui": "^4.0.3",
     "eslint": "^9.38.0",
-    "jsdom": "^27.0.1",
     "prettier": "^3.6.2",
     "tsx": "^4.20.6",
     "typescript": "^5.9.3",
@@ -39,6 +52,7 @@
   },
   "dependencies": {
     "chalk": "^5.6.2",
-    "commander": "^14.0.1"
+    "commander": "^14.0.1",
+    "jsdom": "^27.0.1"
   }
 }
