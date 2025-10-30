@@ -9,6 +9,7 @@ A TypeScript CLI tool for scraping metadata from a website using a provider-base
 
 - [Overview](#overview)
 - [Features](#features)
+- [Contributing](#contributing)
 - [Installation](#installation)
 - [CLI Usage](#cli-usage)
 - [Programmatic Usage](#programmatic-usage)
@@ -22,9 +23,11 @@ A TypeScript CLI tool for scraping metadata from a website using a provider-base
 - [Creating Custom Providers](#creating-custom-providers)
 - [Development](#development)
 - [Testing](#testing)
-  - [Test Structure](#test-structure)
-  - [Writing Tests](#writing-tests)
-  - [Coverage Reports](#coverage-reports)
+  - [Testing Package Installation](#testing-package-installation)
+  - [Testing The Source](#testing-the-source)
+    - [Test Structure](#test-structure)
+    - [Writing Tests](#writing-tests)
+    - [Coverage Reports](#coverage-reports)
 - [CI/CD](#cicd)
 - [API Reference](#api-reference)
   - [Factory Functions](#factory-functions)
@@ -46,7 +49,17 @@ Glypto scrapes metadata from websites including titles, descriptions, images, Op
 - 🎯 **Priority-Based Resolution**: Intelligent fallback system for metadata values
 - 📦 **Multiple Usage Patterns**: CLI tool, programmatic API, or factory functions
 
-## Installation
+# Installation
+
+```bash
+# Global installation
+npm i -g glypto
+
+# Local project installation
+npm i glypto
+```
+
+## Contributing
 
 ```bash
 # Clone the repository
@@ -215,6 +228,12 @@ npm run format
 
 ## Testing
 
+### Testing Package Installation
+
+Please read [Local Install Testing](./docs/local-install-testing.md)
+
+### Testing The Source
+
 The project uses [Vitest](https://vitest.dev/) for testing with TypeScript and ESM support.
 
 ```bash
@@ -231,7 +250,7 @@ npm run test:coverage
 npm run test:ui
 ```
 
-### Test Structure
+#### Test Structure
 
 Tests are organized in the `test/` directory with the following structure:
 
@@ -250,7 +269,7 @@ test/
 └── json-ld-provider.test.ts        # Tests for JSON-LD provider
 ```
 
-### Writing Tests
+#### Writing Tests
 
 Tests use Vitest with jsdom for DOM testing:
 
@@ -270,7 +289,7 @@ describe('MyFeature', () => {
 });
 ```
 
-### Coverage Reports
+#### Coverage Reports
 
 Coverage reports are generated in multiple formats:
 
