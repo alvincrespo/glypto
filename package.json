@@ -23,18 +23,18 @@
   "license": "MIT",
   "description": "An experiment using TypeScript to scrape <meta> tags.",
   "devDependencies": {
-    "@eslint/js": "^9.37.0",
+    "@eslint/js": "^9.38.0",
     "@tsconfig/node24": "^24.0.1",
     "@types/jsdom": "^27.0.0",
-    "@types/node": "^24.6.2",
+    "@types/node": "^24.9.2",
     "@vitest/coverage-v8": "^4.0.3",
     "@vitest/ui": "^4.0.3",
-    "eslint": "^9.37.0",
+    "eslint": "^9.38.0",
     "jsdom": "^27.0.1",
     "prettier": "^3.6.2",
     "tsx": "^4.20.6",
     "typescript": "^5.9.3",
-    "typescript-eslint": "^8.45.0",
+    "typescript-eslint": "^8.46.2",
     "vitest": "^4.0.3"
   },
   "dependencies": {
