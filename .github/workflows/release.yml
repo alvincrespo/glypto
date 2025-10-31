@@ -44,7 +44,7 @@ jobs:
           echo "version=${VERSION}" >> $GITHUB_OUTPUT
 
       - name: Create GitHub Release
-        uses: softprops/action-gh-release@v5
+        uses: softprops/action-gh-release@v2
         with:
           files: |
             glypto-*.tgz
