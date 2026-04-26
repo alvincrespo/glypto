@@ -309,7 +309,7 @@ The project uses GitHub Actions for continuous integration and deployment:
 ### Workflows
 
 - **`ci.yml`**: Main CI pipeline that runs on every push and pull request
-  - Tests across Node.js versions 20.x, 22.x, and 24.x
+  - Tests on Node.js 24.x
   - Runs linting, type checking, building, and testing
   - Uploads coverage reports as artifacts
   - Includes security auditing and dependency checking
