@@ -37,7 +37,7 @@
   "license": "MIT",
   "description": "An experiment using TypeScript to scrape <meta> tags.",
   "devDependencies": {
-    "@eslint/js": "^9.38.0",
+    "@eslint/js": "^10.0.1",
     "@tsconfig/node24": "^24.0.1",
     "@types/jsdom": "^28.0.1",
     "@types/node": "^25.0.3",
