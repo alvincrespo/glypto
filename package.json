@@ -36,6 +36,14 @@
   "author": "Alvin Crespo",
   "license": "MIT",
   "description": "An experiment using TypeScript to scrape <meta> tags.",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alvincrespo/glypto.git"
+  },
+  "bugs": {
+    "url": "https://github.com/alvincrespo/glypto/issues"
+  },
+  "homepage": "https://github.com/alvincrespo/glypto#readme",
   "devDependencies": {
     "@eslint/js": "^10.0.1",
     "@tsconfig/node24": "^24.0.1",
