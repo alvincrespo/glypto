@@ -28,10 +28,9 @@ updates:
       development-dependencies:
         patterns:
           - "@types/*"
-          - "@eslint/*"
           - "@vitest/*"
           - "@tsconfig/*"
-          - "eslint*"
+          - "eslint-*"
           - "typescript*"
           - "prettier"
           - "vitest"
