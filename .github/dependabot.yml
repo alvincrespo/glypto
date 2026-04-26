@@ -17,6 +17,14 @@ updates:
       prefix: "deps"
       include: "scope"
     groups:
+      eslint:
+        patterns:
+          - "eslint"
+          - "@eslint/*"
+        update-types:
+          - "major"
+          - "minor"
+          - "patch"
       development-dependencies:
         patterns:
           - "@types/*"
