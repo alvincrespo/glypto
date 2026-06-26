@@ -1,5 +1,5 @@
 ---
-name: release-preflight
+name: axc-cut-release-preflight
 description: Run safety checks before tagging a glypto release. Validates that the repo, package.json, and release.yml are in a state where pushing a `vX.Y.Z` tag will result in a successful npm publish via Trusted Publishing. Read-only — never modifies files or git state.
 ---
 

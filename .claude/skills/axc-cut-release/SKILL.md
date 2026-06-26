@@ -65,7 +65,7 @@ This phase ends in an **irreversible npm publish**. It must run preflight and ge
 1. Be on `main`, clean, and up to date:
    - `git checkout main && git pull --ff-only origin main`
    - Confirm `package.json.version == V`. If not, something's off (PR not merged, or wrong `V`) — stop and explain.
-2. **Run the `release-preflight` skill** with version `V`. It validates git state, `package.json`, `release.yml`, and the local build/test/pack. Proceed only on a green (✅) verdict. On 🟡, surface the warnings and ask the user whether to continue. On ❌, stop.
+2. **Run the `axc-cut-release-preflight` skill** with version `V`. It validates git state, `package.json`, `release.yml`, and the local build/test/pack. Proceed only on a green (✅) verdict. On 🟡, surface the warnings and ask the user whether to continue. On ❌, stop.
 3. **Confirm with the user** before pushing — name the consequence explicitly:
    > Pushing `v<V>` triggers `release.yml`, which publishes glypto@<V> to npm. This can't be undone. Push the tag?
 4. On yes:
