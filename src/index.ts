@@ -4,13 +4,14 @@ import { Command } from 'commander';
 import chalk from 'chalk';
 import { JSDOM } from 'jsdom';
 import { createScraper } from './factory.js';
+import { readPackageVersion } from './version.js';
 
 const program = new Command();
 
 program
   .name('glypto')
   .description('A CLI tool for scraping webpage metadata')
-  .version('1.0.0');
+  .version(readPackageVersion());
 
 program
   .command('scrape')
