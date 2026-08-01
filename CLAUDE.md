@@ -17,6 +17,28 @@ Glypto is a TypeScript CLI tool project. The project is in early development wit
 
 Note: No test framework is currently configured (test script returns error).
 
+## Working with Dependencies
+
+Before running any npm command that rewrites `package-lock.json` (`npm install`,
+`npm update`, `npm audit fix`), switch to the pinned Node version:
+
+```bash
+nvm use    # reads .nvmrc -> latest 24.x
+```
+
+npm below 11.11.0 silently strips `libc` metadata from the lockfile, which npm
+needs to select the right prebuilt native binaries on musl vs glibc systems. The
+earliest Node 24 shipping a new enough npm is 24.14.1, so `nvm use` (latest
+24.x) is the safe choice — note that satisfying the `engines` floor of
+`>=24.4.0` is **not** sufficient.
+
+After regenerating, check `git diff --stat package-lock.json`. If the diff is
+much larger than the change you intended, the wrong npm was used: run
+`git checkout package-lock.json` and retry. CI enforces this via the
+`Lockfile Guard` job.
+
+See `docs/dependencies.md` for the full explanation.
+
 ## Project Structure
 
 - `src/index.ts` - Main CLI entry point (currently just logs "Hello from glypto CLI!")

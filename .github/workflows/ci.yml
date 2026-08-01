@@ -67,6 +67,36 @@ jobs:
       - name: Check formatting
         run: npx prettier --check "src/**/*.ts" "test/**/*.ts"
 
+  lockfile-guard:
+    name: Lockfile Guard
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+
+      - name: Check for stripped libc metadata
+        env:
+          BASE_REF: ${{ github.base_ref }}
+        run: |
+          # npm < 11.11.0 silently deletes "libc" entries from the lockfile.
+          # npm needs them to pick the right prebuilt native binary on musl vs
+          # glibc, so losing them is a real regression that reads as diff noise.
+          # See docs/dependencies.md.
+          git fetch --no-tags --depth=1 origin "$BASE_REF"
+
+          base=$(git show "FETCH_HEAD:package-lock.json" | grep -c '"libc"' || true)
+          head=$(grep -c '"libc"' package-lock.json || true)
+          echo "libc entries — base: $base, head: $head"
+
+          if [ "$head" -lt "$base" ]; then
+            echo "::error file=package-lock.json::package-lock.json lost $((base - head)) \"libc\" entries. Regenerate with Node 24.14.1+ (npm 11.11.0+): git checkout package-lock.json && nvm use && npm install --package-lock-only. If you intentionally removed a dependency that carried libc metadata, say so in the PR description."
+            exit 1
+          fi
+
+          echo "No libc metadata lost."
+
   security:
     name: Security Audit
     runs-on: ubuntu-latest
