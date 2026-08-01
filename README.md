@@ -67,12 +67,20 @@ npm i glypto
 git clone <repository-url>
 cd glypto
 
+# Use the pinned Node version (see note below)
+nvm use
+
 # Install dependencies
 npm install
 
 # Build the project
 npm run build
 ```
+
+> **Before changing dependencies**, run `nvm use` (or `fnm use`) so npm matches
+> what CI uses. An older npm silently strips `libc` metadata from
+> `package-lock.json`, and CI's `Lockfile Guard` job will reject the PR. See
+> [docs/dependencies.md](docs/dependencies.md).
 
 ## CLI Usage
 
